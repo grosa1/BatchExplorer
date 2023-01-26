@@ -62,7 +62,11 @@ export class MockHttpClient extends AbstractHttpClient {
             return response;
         }
 
-        throw new MockHttpResponseError(`Unexpected mock request: ${key}`);
+        throw new MockHttpResponseError(
+            `Unexpected mock request:\n    ${key}. \nExpected requests:\n    ${Object.keys(
+                this._expectedResponses
+            ).join("    \n")}`
+        );
     }
 
     /**
