@@ -60,6 +60,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@batch/arm-batch-rest": "^1.0.0",
     "@batch/common-config": "^1.0.0",
     "@batch/ui-common": "^1.0.0",
     "@types/jest": "^27.0.1",
