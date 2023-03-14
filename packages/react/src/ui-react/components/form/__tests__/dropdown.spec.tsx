@@ -1,10 +1,9 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
 import { initMockBrowserEnvironment } from "../../../environment";
 import { runAxe } from "../../../test-util/a11y";
 import { Dropdown } from "../dropdown";
-
 describe("Dropdown form control", () => {
     beforeEach(() => initMockBrowserEnvironment());
 
@@ -25,10 +24,8 @@ describe("Dropdown form control", () => {
         expect(ddEl).toBeDefined();
 
         const user = userEvent.setup();
-        user.click(ddEl);
-        await waitFor(() =>
-            expect(ddEl.getAttribute("aria-expanded")).toBe("true")
-        );
+        await user.click(ddEl);
+        expect(ddEl.getAttribute("aria-expanded")).toBe("true");
 
         const options = screen.getAllByRole("option");
         expect(options.length).toEqual(3);
@@ -37,7 +34,6 @@ describe("Dropdown form control", () => {
             "king",
             "queen",
         ]);
-
         expect(
             await runAxe(container, {
                 rules: {
