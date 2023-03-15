@@ -4,12 +4,11 @@ import { initMockBrowserEnvironment } from "../../../environment";
 import { runAxe } from "../../../test-util/a11y";
 import { Checkbox } from "../checkbox";
 
-let testCount = 0;
-
 describe("Checkbox control", () => {
     beforeEach(() => initMockBrowserEnvironment());
 
     test("Render checkbox control", async () => {
+        const spy = jest.fn();
         const { container } = render(
             <>
                 <Checkbox
@@ -17,7 +16,7 @@ describe("Checkbox control", () => {
                     ariaLabel="Accessible checkbox label"
                     checked={false}
                     disabled={false}
-                    onChange={defaultCheckboxClicked}
+                    onChange={spy}
                 ></Checkbox>
 
                 <Checkbox
@@ -40,19 +39,16 @@ describe("Checkbox control", () => {
         );
 
         //Expect checkbox's onChange method to work correctly
-        expect(testCount).toBe(0);
+        expect(spy).toBeCalledTimes(0);
         fireEvent.click(screen.getAllByText(/checkbox/i)[0]);
-        expect(testCount).toBe(1);
+        expect(spy).toBeCalledTimes(1);
     });
 
     test("Simulate the checking of a checkbox", async () => {
-        render(<Checkbox aria-checked={false} />);
-        const checkbox = screen.getByRole("checkbox");
+        render(<Checkbox />);
+        const checkbox = screen.getByRole("checkbox") as HTMLInputElement;
+        expect(checkbox.checked).toEqual(false);
         fireEvent.click(checkbox);
-        expect(checkbox.getAttribute("aria-checked")).toEqual("true");
+        expect(checkbox.checked).toEqual(true);
     });
 });
-
-function defaultCheckboxClicked(): void {
-    testCount++;
-}
